@@ -1,17 +1,16 @@
 <?php 
-echo 'hello';
+/********* File name and number of lines ***********/
 $filename = 'array_file.txt';
-if ($handle = fopen($filename, 'r'));
-	echo 'YES';
-// $contents = fread($handle, filesize($filename));
-// var_dump($contents);
+$handle = fopen($filename, 'r');
 $total_lines = 29999;
 $first = 1;
 $last = 29999;
 $mid = floor($first + ($last - $first) / 2);
 $line = 0;
+/********* Key to find ***********/
 $key = 'HWmc';
-$i = 1;
+/*********************************/
+$found = FALSE;
 while ($first < $last) 
 {
 	while (($content = fgets($handle)) !== FALSE) 
@@ -19,6 +18,7 @@ while ($first < $last)
 		if ($line == $mid) 
 		{
 			$content_key = explode('	', $content);
+			/*content_key[0] contains key of the current line*/
 			if (strcmp($content_key[0], $key) > 0) 
 			{
 				$last = $mid;
@@ -33,15 +33,15 @@ while ($first < $last)
 			{
 				echo 'Key given: '.$key."\t Key found: ".$content_key[0].' Value: '.$content_key[1];
 				$first = $last;
+				$found = TRUE;
 				break;
 			}
 			$mid = floor($first + ($last - $first) / 2);
 	       	break;
 	   }   
 	   $line++;
-	   // echo $line."\n";
 	}
 }
-echo $content;
-echo 'first '.$first;
-echo ' last'.$last;
+if (!$found) {
+	echo "Key was not found";
+}
